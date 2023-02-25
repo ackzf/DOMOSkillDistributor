@@ -1,0 +1,1673 @@
+<!--Author: AKFrost, Do Not Redistribute-->
+<html>
+<head>
+<title>Skill Distributor</title>
+</head>
+<body>
+  <table>
+  <tr>  	
+	<td>
+    Class: <select id="hclasschosen" ></select>
+    Level: <input id="hlvl" style="width:25px">
+    <table>
+    <tr><td>Life Quest Springs:</td><td><input id="hlsprings" style="width:25px"> Max: <span id=hlcalc>0</span></td></tr>
+    <tr><td>Class Springs:</td><td><input id= "hcsprings" style="width:25px"> Max: <span id=hccalc>0</span></td></tr>
+    <tr><td>Occupational Springs:</td><td><input id="hosprings" style="width:25px"></td></tr>    
+    </table>    
+    <button id="calculate" onclick="setUpSkills()">Calculate</button>  
+    <div><span id="lhpoints">Points Available: </span><span id="hpoints">0</span></div>
+      </td>
+  <td><img id="hclassicon" src="./Commoner/c.png">
+  </td>
+  </tr>
+  </table>
+    <hr>
+    <div id="hskillsiname"></div>    
+		<table id="hskillsi"></table>
+    <hr>
+    <div id="hskillsiiname"></div>
+    <table id="hskillsii"></table>
+    <hr>
+    <div id="hskillsiiiname"></div>
+    <table style="table-layout:fixed" id="hskillsiii"></table>	
+  <hr>
+  <div>This is used to correct data errors.</div>
+  <div><button id="recompile" onclick="updateData()">Recompile Data</button></div>
+  <div>
+  <textarea id="rawcode" style="width:500px;height:800px">  
+classes = [
+"Commoner",
+"Fencer",
+"Blademaster",
+"Mercenary",
+"Martial Artist",
+"Hunter",
+"Thief",
+"Shaman",
+"Wizard",
+"Witch Doctor",
+"Doctor",
+"Musician",
+"Dancer",
+"Merchant",
+"Sorcerer",
+];
+
+skillsdicti = {
+"Fencer" : "Elemental Attacks",
+"Blademaster" : "Bestial Attacks",
+"Mercenary" : "Ax Attacks",
+"Martial Artist" : "Power Attacks",
+"Hunter" : "Archery",
+"Thief" : "Close Combat",
+"Shaman" : "Seasonal Magic",
+"Wizard" : "Scrollcasting",
+"Witch Doctor" : "Poisoning",
+"Doctor" : "Medical Treatment",
+"Musician" : "Musical Magic",
+"Dancer" : "Fan Dancing",
+"Merchant" : "Trade Secrets",
+"Sorcerer" : "Spells of The Five Elements",
+};
+
+skillsdictii = {
+"Fencer" : "Targeted Attacks",
+"Blademaster" : "Martyr Arts",
+"Mercenary" : "Spear Attacks",
+"Martial Artist" : "Staff Attacks",
+"Hunter" : "Hunter's Instincts",
+"Thief" : "Sneak Attacks",
+"Shaman" : "Nature Magic",
+"Wizard" : "Spellcasting",
+"Witch Doctor" : "Blood Curse Poison",
+"Doctor" : "Croakus Pocus",
+"Musician" : "Pet Sounds",
+"Dancer" : "Different Dances",
+"Merchant" : "Money Talks",
+"Sorcerer" : "Puppet Control",
+};
+
+skillsdictiii = {
+"Commoner" : "Commoner Skills",
+"Fencer" : "Fencing Skills",
+"Blademaster" : "Blademaster Skills",
+"Mercenary" : "Mercenary Skills",
+"Martial Artist" : "Martial Arts",
+"Hunter" : "Hunting Skills",
+"Thief" : "Thieving Skills",
+"Shaman" : "Shaman Skills",
+"Wizard" : "Magical Skills",
+"Witch Doctor" : "Voodoo Magic",
+"Doctor" : "Medical Knowledge",
+"Musician" : "Bardship",
+"Dancer" : "Dancing Skill",
+"Merchant" : "Trading Skills",
+"Sorcerer" : "Sorcerer's Knowledge",
+};
+
+skillsdict = {
+//Commoner
+"Commoner Skills": ["Rising Water Level", "Forestry Finesse", "Farming Finesse", "Maxi-Mining", "Heightened Herding", "Thickening Thoughts", "Apex of Alchemy", "Thrifty Saver"],
+//Fencer
+"Elemental Attacks": ["Boundless Falling Leaves", "Raging Torrent", "Rolling Thunder", "Burning Backdraft", "Looming Mountain", "Howling Wind", "Crashing Waves", "Cracking Thunder", "Roaring Inferno", "Crushing Landslide"],
+"Targeted Attacks": ["Stunning Strike", "Razzle Dazzle", "Slap on the Wrist", "Toughen Magic", "Magic Barrier", "Crippling Clout", "Sinister Saber", "Pressure Point Strike", "Offensive Aura", "Defensive Aura"],
+"Fencing Skills": ["Equip Sword", "Saber Mastery", "Lightning Flash"],
+//Blademaster
+"Bestial Attacks": ["Growling Tiger", "Fierce Bark", "Menacing Moo", "Hair-Raising Hiss", "Eagle Shriek", "Roaring Lion", "Howling Wolf", "Grizzling Bear", "Dragon's Call", "Phoenix Song"],
+"Martyr Arts": ["Maniac Attack", "Berserker Blow", "Burning Rage", "Focus", "Lash Out", "Double-Edged Sword", "Mindless Slaughter", "All-Out Assault", "Concentration", "Sneak Attack"],
+"Blademaster Skills": ["Equip Saber", "Equip Light Armor", "Saber Mastery", "Tiger and Dragon Slaying"],
+//Mercenary
+"Ax Attacks": ["Splitting Chop", "Owl Slash", "Precision Strike", "Better-Blocker", "Taunt", "Cross Chop", "All Bets Are Off", "All or Nothing", "Iron Curtain", "Mock Monsters"],
+"Spear Attacks": ["Stabbing Strike", "Wicked Windmill", "Goose Formation", "Circle Formation", "Dustpan Formation", "Stick and Twist", "Corkscrew Slice", "Arrow Formation", "Snake Formation", "Crane Formation"],
+"Mercenary Skills": ["Equip Spear", "Equip Ax", "Equip Heavy Armor", "Equip Shield", "Spear Mastery", "Ax Mastery", "Bronze Sinew Iron Bone"],
+//Martial Artist
+"Power Attacks": ["Penetrating Blow", "Armlock", "Flying Fist", "Seismic Shudder", "Knockout", "Far-Flung Fist", "Smash and Grab", "Fortifying Force", "Tranquil Turtle", "Jawbreaker"],
+"Staff Attacks": ["Coiled Serpent Staff", "Swizzle Stick", "Cloudshaker Staff", "Meditation", "Elbow", "Staff Dance", "Dragon Guard", "Staff Whip", "Channel Energy", "Break Weapon"],
+"Martial Arts": ["Equip Boxing Gloves", "Equip Staff", "Boxing Gloves Mastery", "Staff Mastery", "Endless River"],
+//Hunter
+"Archery": ["Full Draw", "Additive Arrow", "Dart Deluge", "Arrow Alchemy", "Assassin's Arrow", "Strongbow", "Two Birds with One Stone", "Dark Deluge", "Bowstring Shockwave", "Demonslayer Arrow"],
+"Hunter's Instincts": ["Unerring Aim", "Sneak Peek", "Concentrated Fury", "Ankle Strike", "Appease", "Ready for Action", "Aim", "Poison Weapon", "Weak Spotter", "Go For the Throat"],
+"Hunting Skills": ["Equip Bow", "Bow Mastery", "Sharpened Arrow"],
+//Thief
+"Close Combat": ["Super Stab", "Swift Swallow Strike", "Control Breathing", "Premonition", "Throw Knife", "Stealthy Stab", "Whirling Dervish", "Rhythm of Life", "Fighting Foresight", "Light Hammer Throw"],
+"Sneak Attacks": ["Bolt From the Blouse", "Ash Spray", "Fast Getaway", "Hypnosis", "Pilfer", "Veiled Volley", "Shadow Advance", "Run Amok", "Play Dead", "Pillage"],
+"Thieving Skills": ["Equip Dagger", "Equip Clothing", "Dagger Mastery", "Floating Walk"],
+//Shaman
+"Seasonal Magic": ["Snow Shower", "Ides of March", "Tidal Torrent", "Heatstroke Hex", "Coming of Autumn", "Blizzard", "Blackthorn", "Acid Rain", "Summer Solstice", "Scorched Earth"],
+"Nature Magic": ["Summer Sun", "Hoar Frost", "Spring Cleaning", "Heavy Frost", "Heatstroke", "Deep Heat", "Frostbite", "Malicious Mirror", "Choking Climber", "Swarm"],
+"Shaman Skills": ["Equip Wand", "Mega Magic", "Yin-Yang Transform"],
+//Wizard
+"Scrollcasting": ["Scorching Scroll", "Explosive Runes", "Lightning Runes", "Toppling Tremor", "Acid Rain Scroll", "Secret Charm of Searing Flame", "Secret Charm of Shrieking Demons", "Secret Charm of Rolling Thunder", "Secret Charm of Thorns", "Speeding Ticket"],
+"Spellcasting": ["Chant of Impure Thoughts", "Warning Warble", "Stalling Chant", "Cataclysmic Converter", "Chant of Liberation", "Secret of the Metal Spirit", "Secret of the Wood Spirit", "Secret of the Earth Spirit", "Secret of the Water Spirit", "Secret of the Fire Spirit"],
+"Magical Skills": ["Equip Robes", "Finding Enlightenment"],
+//Witch Doctor
+"Poisoning": ["Agony Bug", "Bloodthirsty Bug", "Toxin Detonating Bug", "Poison-Purifying Bug", "Sanctuary Scarab", "Explosive Bug", "Souleater Bug", "Plant Summoning Bug", "Plant Puppet Bugs", "Plant Skill Bugs"],
+"Blood Curse Poison": ["Liquid Venom", "Poison Strike", "Stalling Poison", "Blood Boil", "Martial Hex", "Poison Fog", "Poison Needles", "Hundred Step Poison", "Poisonous Blood", "Withered Earth"],
+"Voodoo Magic": ["Use Poison Insect and Poison", "Poison Immunity"],
+//Doctor
+"Medical Treatment": ["Health Heist", "First Aid", "Regeneration", "Detox", "Born Again", "Heavy Health Heist", "Greater Healing", "Inner Magic", "Purify", "Ultimate Healing"],
+"Croakus Pocus": ["Frogs' Legs Soup", "Frog Force", "Frog Forcefield", "Prolong Life", "Soup of Self Preservation", "Fantastic Frogs' Legs Soup", "Yin Frog", "Yang Frog", "Mega Magic Boost", "Mega Medicine"],
+"Medical Knowledge": ["Equip Syringe", "Medkit Mastery", "Hand of Healing"],
+//Musician
+"Musical Magic": ["Sonic Swipe", "Mystic Mantra", "Courageous Chorus", "Song of Concentration", "Diligent Ditty", "Supersonic Swipe", "Transfusion Tune", "Mars' Song", "Hymn to the Goddess", "Echo Guard"],
+"Pet Sounds": ["Soothing Serenade", "Song of Serenity", "Power Ballad", "Defensive Ditty", "Cheery Tune", "Resurrect Pet", "Pet Snack Song", "Pet Training Song", "Pet Prayer", "Pet Praising Song"],
+"Bardship": ["Equip Musical Instrument", "Musical Instrument Mastery", "Soul Music"],
+//Dancer
+"Fan Dancing": ["Ferocious Fandango", "Flying Swallow Fandango", "Fatiguing Fan", "Fleecing Fan", "Extractor Fan", "Fancy Ferocious Fandango", "Flying Eagle Fandango", "Fang Fandango", "Phantom Fang Fandango", "Sandstorm Salsa"],
+"Different Dances": ["Flaming Foxtrot", "River Rhumba", "Soothing Shimmy", "Hypnotic Hoedown", "Enchanting Cha-Cha", "Joan's Jive", "Stream Spirit Shuffle", "Bestial Boogie", "Mating Dance", "Trance Dance"],
+"Dancing Skill": ["Equip Fan", "Equip Dancewear", "Fan Mastery", "Flirting Glances"],
+//Merchant
+"Trade Secrets": ["HP Medicine Boost", "MP Medicine Boost", "Cash Withdrawal", "Construct Coin Shield", "Underwrite Life Insurance", "Make Metal Munchies", "Make Wood Munchies", "Make Earth Munchies", "Make Water Munchies", "Make Fire Munchies"],
+"Money Talks": ["Coin Toss", "Extortion", "Mathemattack", "Money Rain", "Doubloon Discharge", "Blood Money", "Bankeruption", "Strapped for Cash"],
+"Trading Skills": ["Equip Abacus", "Abacus Mastery", "Tax Break", "Stall Upgrade", "Cash Windfall"],
+//Sorcerer
+"Spells of The Five Elements": ["Blizzard's Curse", "Blackthorn's Curse", "Acid Rain's Curse", "Summer Solstice's Curse", "Scorched Earth's Curse", "Whirling Frost", "Tinges of Spring", "Fallen Rain", "Fire of Sultry Summer", "Vines of Early Autumn"],
+"Puppet Control": ["Puppet Prolong Life", "Puppet Frog Force", "Puppet Yin Frog", "Puppet Premonition", "Puppet Spring Cleaning", "Puppet Metal Spirits", "Puppet Wood Spirits", "Puppet Water Spirits", "Puppet Fire Spirits", "Puppet Earth Spirits"],
+"Sorcerer's Knowledge": ["Godlike Demeanor", "Aura of Universe"],
+};
+
+skillsdictlevel = {
+
+//Commoner Skills
+"Rising Water Level" : [0,0,0,0,0,0,0],
+"Forestry Finesse" : [0,0,0,0,0,0,0],
+"Farming Finesse" : [0,0,0,0,0,0,0],
+"Maxi-Mining" : [0,0,0,0,0,0,0],
+"Heightened Herding" : [0,0,0,0,0,0,0],
+"Thickening Thoughts" : [0,0,0,0,0,0,0],
+"Apex of Alchemy" : [0,0,0,0,0,0,0],
+"Thrifty Saver" : [30,40,50,60,65,70],
+
+//Elemental Attacks
+"Boundless Falling Leaves" : [10,13,16,19,22,25,28,31,34,37,50,54,58,62,66,70,71],
+"Raging Torrent" : [11,14,17,20,23,26,29,32,35,38,51,55,59,63,67,70,72],
+"Rolling Thunder" : [11,14,17,20,23,26,29,32,35,38,51,55,59,63,67,70,72],
+"Burning Backdraft" : [12,15,18,21,24,27,30,33,36,39,52,56,60,64,68,70,73],
+"Looming Mountain" : [12,15,18,21,24,27,30,33,36,39,52,56,60,64,68,70,73],
+"Howling Wind" : [22,25,28,31,34,37,40,43,46,49],
+"Crashing Waves" : [23,26,29,32,35,38,41,44,47,50],
+"Cracking Thunder" : [23,26,29,32,35,38,41,44,47,50],
+"Roaring Inferno" : [24,27,30,33,36,39,42,45,48,51],
+"Crushing Landslide" : [24,27,30,33,36,39,42,45,48,51],
+
+//Targeted Attacks
+"Stunning Strike" : [16,20,24,28,32,36,40,44,48,52],
+"Razzle Dazzle" : [17,21,25,29,33,37,41,45,49,53],
+"Slap on the Wrist" : [18,22,26,30,34,38,42,46,50,54],
+"Toughen Magic" : [15,19,23,27,31,35,39,43,47,51],
+"Magic Barrier" : [15,19,23,27,31,35,39,43,47,51],
+"Crippling Clout" : [24,30,36,42,48,54,60,66,70],
+"Sinister Saber" : [24,28,32,36,40,44,48,52,56,60,65,70,72],
+"Pressure Point Strike" : [25,29,33,37,41,45,49,53,57,61,66,70,73],
+"Offensive Aura" : [35,39,43,47,51,55,59,63,67,70],
+"Defensive Aura" : [35,39,43,47,51,55,59,63,67,70],
+
+//Fencing Skills
+"Equip Sword" : [30],
+"Saber Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Lightning Flash" : [30,40,50,60,65,70,72],
+
+//Bestial Attacks
+"Growling Tiger" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71,72,73,74],
+"Fierce Bark" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,71,70,72,73,74],
+"Menacing Moo" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,71,72,73,74],
+"Hair-Raising Hiss" : [13,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,71,72,73,74],
+"Eagle Shriek" : [14,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70,71,72,73,74],
+"Roaring Lion" : [30,34,38,42,46,50,54,58,62,66,70,71,73,74,75],
+"Howling Wolf" : [31,35,39,43,47,51,55,59,63,67,70,71,73,74,75],
+"Grizzling Bear" : [31,35,39,43,47,51,55,59,63,67,70,71,73,74,75],
+"Dragon's Call" : [32,36,40,44,48,52,56,60,64,68,70,71,73,74,75],
+"Phoenix Song" : [33,37,41,45,49,53,57,61,65,69,70,71,73,74,75],
+
+//Martyr Arts
+"Maniac Attack" : [15,19,23,27,31,35,39,43,47,51],
+"Berserker Blow" : [16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,71,72,73,74,75],
+"Burning Rage" : [17,21,25,29,33,37,41,45,49,53],
+"Focus" : [15,19,23,27,31,35,39,43,47,51],
+"Lash Out" : [16,20,24,28,32,36,40,44,48,52],
+"Double-Edged Sword" : [33,37,41,45,49,53,57,61,65,69],
+"Mindless Slaughter" : [34,38,42,46,50,54,58,62,66,70,71,72,73,74,75],
+"All-Out Assault" : [35,39,43,47,51,55,59,63,67,70],
+"Concentration" : [33,37,41,45,49],
+"Sneak Attack" : [34],
+
+//Blademaster Skills
+"Equip Saber" : [30],
+"Equip Light Armor" : [30],
+"Saber Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Tiger and Dragon Slaying" : [30,40,50,60,65,70,72,73,74,75],
+
+//Ax Attacks
+"Splitting Chop" : [10,13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70],
+"Owl Slash" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,73],
+"Precision Strike" : [11,15,19,23,27,31,35,39,43,47],
+"Better-Blocker" : [12,16,20,24,28,32,36,40,44,48],
+"Taunt" : [17,22,27,32,37,42,47,52,57,62,67,70],
+"Cross Chop" : [25,29,33,37,41,45,49,53,57,61],
+"All Bets Are Off" : [28,32,36,40,44,48,52,56,60,64,68,71],
+"All or Nothing" : [27,31,35,39,43,47,51,55,59,63],
+"Iron Curtain" : [28,32,36,40,44,48,52,56,60,64],
+"Mock Monsters" : [29,34,39,44,49,54,59,64,69,71],
+
+//Spear Attacks
+"Stabbing Strike" : [10,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,72],
+"Wicked Windmill" : [13,17,21,25,29,33,37,41,45,49],
+"Goose Formation" : [12,17,22,27,32,37,42,47,52,57],
+"Circle Formation" : [12,17,22,27,32,37,42,47,52,57],
+"Dustpan Formation" : [12,17,22,27,32,37,42,47,52,57],
+"Stick and Twist" : [27,31,35,39,43,47,51,55,59,63,68,70],
+"Corkscrew Slice" : [29,33,37,41,45,49,53,57,61,65,70,72],
+"Arrow Formation" : [27,32,37,42,47,52,57,62,67,70],
+"Snake Formation" : [27,32,37,42,47,52,57,62,67,70],
+"Crane Formation" : [27,32,37,42,47,52,57,62,67,70],
+
+//Mercenary Skills
+"Equip Spear" : [30],
+"Equip Ax" : [30],
+"Equip Heavy Armor" : [30],
+"Equip Shield" : [30],
+"Spear Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Ax Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Bronze Sinew Iron Bone" : [30,40,50,60,65,70,72,73,74,75],
+
+//Power Attacks
+"Penetrating Blow" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Armlock" : [12,16,20,24,28,32,36,40,44,48],
+"Flying Fist" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,73],
+"Seismic Shudder" : [13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70],
+"Knockout" : [14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Far-Flung Fist" : [30,35,40,45,50,55,60,65,70,72],
+"Smash and Grab" : [32,37,42,47,52,57,62,67,70],
+"Fortifying Force" : [32,37,42,47,52,57,62,67,70],
+"Tranquil Turtle" : [33,38,43,48,53,58,63,68,70],
+"Jawbreaker" : [35,40,45,50,55,60,65,70,72],
+
+//Staff Attacks
+"Coiled Serpent Staff" : [10,16,21,26,31,36,41,46,51,56,60,64,68,70,73],
+"Swizzle Stick" : [12,17,22,27,32,37,42,47,52,57,61,65,69,70],
+"Cloudshaker Staff" : [13,18,23,28,33,38,43,48,53,58,62,66,70,71],
+"Meditation" : [13,18,23,28,33,38,43,48,53,58,63,68,70],
+"Elbow" : [14,19,24,29,34,39,44,49,54,59],
+"Staff Dance" : [31,36,41,46,51,56,61,66,70,73],
+"Dragon Guard" : [32,37,42,47,52,57,62,67,70],
+"Staff Whip" : [33,38,43,48,53,58,63,68,70],
+"Channel Energy" : [33,38,43,48,53,58,63,68,70],
+"Break Weapon" : [34,39,44,49,54,59,64,69,71],
+
+//Martial Arts
+"Equip Boxing Gloves" : [30],
+"Equip Staff" : [30],
+"Boxing Gloves Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Staff Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Endless River" : [30,40,50,60,65,70,72],
+
+//Archery
+"Full Draw" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71,73,74,75],
+"Additive Arrow" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,72,73,74,75],
+"Dart Deluge" : [13,17,21,25,29,33,37,41,45,49],
+"Arrow Alchemy" : [11,15,19,23,27,31,35,39,43,47],
+"Assassin's Arrow" : [13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70,72,73,74,75],
+"Strongbow" : [27,31,35,39,43,47,51,55,59,63,68,70,73,74,75],
+"Two Birds with One Stone" : [30,34,38,42,46,50,54,58,62,66],
+"Dark Deluge" : [29,33,37,41,45,49,53,57,61,65],
+"Bowstring Shockwave" : [28,32,36,40,44,48,52,56,60,64],
+"Demonslayer Arrow" : [30,34,38,42,46,50,54,58,62,66,70,71,73,74,75],
+
+//Hunter's Instincts
+"Unerring Aim" : [12,16,20,24,28,32,36,40,44,48],
+"Sneak Peek" : [11],
+"Concentrated Fury" : [14,18,22,26,30,34,38,42,46,50],
+"Ankle Strike" : [12,16,20,24,28,32,36,40,44,48],
+"Appease" : [13,17,21,25,29,33,37,41,45,49],
+"Ready for Action" : [28,32,36,40,44,48,52,56,60,64],
+"Aim" : [30,34,38,42,46,50,54,58,62,66],
+"Poison Weapon" : [27,31,35,39,43,47,51,55,59,63,68,70,73,74,75],
+"Weak Spotter" : [28,32,36,40,44,48,52,56,60,64],
+"Go For the Throat" : [29,33,37,41,45,49,53,57,61,65,70,72],
+
+//Hunting Skills
+"Equip Bow" : [30],
+"Bow Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Sharpened Arrow" : [30,40,50,60,65,70,72,73,74,75],
+
+//Close Combat
+"Super Stab" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Swift Swallow Strike" : [11,15,19,23,27,31,35,39,43,47],
+"Control Breathing" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,73],
+"Premonition" : [11,15,19,23,27,31,35,39,43,47],
+"Throw Knife" : [13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70],
+"Stealthy Stab" : [26,30,34,38,42,46,50,54,58,62,67,70],
+"Whirling Dervish" : [27,31,35,39,43,47,51,55,59,63],
+"Rhythm of Life" : [28,32,36,40,44,48,52,56,60,64,68,70,73],
+"Fighting Foresight" : [27,31,35,39,43,47,51,55,59,63],
+"Light Hammer Throw" : [29,33,37,41,45,49,53,57,61,65,70,72],
+
+//Sneak Attacks
+"Bolt From the Blouse" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,72,73,74,75],
+"Ash Spray" : [13,17,21,25,29,33,37,41,45,49],
+"Fast Getaway" : [13,17,21,25,29,33,37,41,45,49],
+"Hypnosis" : [14,18,22,26,30,34,38,42,46,50],
+"Pilfer" : [10,11,16,21,26,31,36,41,46,51],
+"Veiled Volley" : [29,33,37,41,45,49,53,57,61,65],
+"Shadow Advance" : [30,34,38,42,46,50,54,58,62,66],
+"Run Amok" : [30,34,38,42,46,50,54,58,62,66],
+"Play Dead" : [31],
+"Pillage" : [28,33,38,43,48,53,58,63,68,70],
+
+//Thieving Skills
+"Equip Dagger" : [30],
+"Equip Clothing" : [30],
+"Dagger Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Floating Walk" : [30,40,50,60,65,70,72],
+
+//Seasonal Magic
+"Snow Shower" : [10,16,22,28,34,40,46,52,58,64,70,71,72,74,75],
+"Ides of March" : [11,17,23,29,35,41,47,53,59,65,70,71,72,74,75],
+"Tidal Torrent" : [12,18,24,30,36,42,48,54,60,66,70,71,72,74,75],
+"Heatstroke Hex" : [13,19,25,31,37,43,49,55,61,67,70,71,72,74,75],
+"Coming of Autumn" : [14,20,26,32,38,44,50,56,62,68,71,72,73,74,75],
+"Blizzard" : [29,35,41,47,53,59,65,70,72,75],
+"Blackthorn" : [30,36,42,48,54,60,66,70,72,75],
+"Acid Rain" : [31,37,43,49,55,61,67,70,72,75],
+"Summer Solstice" : [32,38,44,50,56,62,68,71,73,75],
+"Scorched Earth" : [33,39,45,51,57,63,69,72,74,75],
+
+//Nature Magic
+"Summer Sun" : [13,17,21,25,29,33,37,41,45,49],
+"Hoar Frost" : [14,18,22,26,30,34,38,42,46,50],
+"Spring Cleaning" : [14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Heavy Frost" : [15,19,23,27,31,35,39,43,47,51],
+"Heatstroke" : [15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,72],
+"Deep Heat" : [29,33,37,41,45,49,53,57,61,65,69,70],
+"Frostbite" : [30,34,38,42,46,50,54,58,62,66,70,71],
+"Malicious Mirror" : [30,34,38,42,46,50,54,58,62,66],
+"Choking Climber" : [31,35,39,43,47,51,55,59,63,67],
+"Swarm" : [31,35,39,43,47,51,55,59,63,67,70,72],
+
+//Shaman Skills
+"Equip Wand" : [30],
+"Mega Magic" : [30,35,40,45,50,55,60,65,70,72],
+"Yin-Yang Transform" : [30,40,50,60,65,70,72],
+
+//Scrollcasting
+"Scorching Scroll" : [10,16,22,28,34,40,46,52,58,64,70,71,72,73,74],
+"Explosive Runes" : [12,18,24,30,36,42,48,54,60,66],
+"Lightning Runes" : [13,19,25,31,37,43,49,55,61,67,70,71,72,73,74],
+"Toppling Tremor" : [14,20,26,32,38,44,50,56,62,68],
+"Acid Rain Scroll" : [15,21,27,33,39,45,51,57,63,69],
+"Secret Charm of Searing Flame" : [29,35,41,47,53,59,65,70,72,74],
+"Secret Charm of Shrieking Demons" : [31,37,43,49,55,61,67,70],
+"Secret Charm of Rolling Thunder" : [32,38,44,50,56,62,68,71,72,73],
+"Secret Charm of Thorns" : [33,39,45,51,57,63,69,72,73,74],
+"Speeding Ticket" : [29,37,45,53,61],
+
+//Spellcasting
+"Chant of Impure Thoughts" : [11,17,23,29,35,41,47,53,59,65,70,71,72,73,74],
+"Warning Warble" : [20,26,32,38,44,50,56,62,68,71],
+"Stalling Chant" : [20,24,28,32,36,40,44,48,52,56],
+"Cataclysmic Converter" : [24,28,32,36,40,44,48,52,56,60,64,68,70,71,72,73,74,75,75,75],
+"Chant of Liberation" : [25,30],
+"Secret of the Metal Spirit" : [12,15,19,23,27,31,35,39,43,47],
+"Secret of the Wood Spirit" : [12,15,19,23,27,31,35,39,43,47],
+"Secret of the Earth Spirit" : [12,15,19,23,27,31,35,39,43,47],
+"Secret of the Water Spirit" : [12,15,19,23,27,31,35,39,43,47],
+"Secret of the Fire Spirit" : [12,15,19,23,27,31,35,39,43,47],
+
+//Magical Skills
+"Equip Robes" : [30],
+"Finding Enlightenment" : [30,40,50,60,65,70,72,73,74,75],
+
+//Poisoning
+"Agony Bug" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Bloodthirsty Bug" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,72],
+"Toxin Detonating Bug" : [12,18,24,30,36,42,48,54,60,66],
+"Poison-Purifying Bug" : [13,19,25,31,37,43,49,55,61,67],
+"Sanctuary Scarab" : [14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Explosive Bug" : [31,35,39,43,47,51,55,59,63,67,70,72],
+"Souleater Bug" : [31,35,39,43,47,51,55,59,63,67,70,73],
+"Plant Summoning Bug" : [15,23,31,39,47,55,63,70],
+"Plant Puppet Bugs" : [16,24,32,40,48,56,64,70],
+"Plant Skill Bugs" : [16,24,32,40,48,56,64,70],
+
+//Blood Curse Poison
+"Liquid Venom" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,72],
+"Poison Strike" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,72],
+"Stalling Poison" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,73],
+"Blood Boil" : [13,19,25,31,37,43,49,55,61,67,70],
+"Martial Hex" : [14,20,26,32,38,44,50,56,62,68],
+"Poison Fog" : [31,35,39,43,47,51,55,59,63,67,70,72],
+"Poison Needles" : [31,35,39,43,47,51,55,59,63,67,70,72],
+"Hundred Step Poison" : [32,36,40,44,48,52,56,60,64,68,70,73],
+"Poisonous Blood" : [33,37,41,45,49,53,57,61,65,69,70],
+"Withered Earth" : [34,40,46,52,58,64,70,73],
+
+//Voodoo Magic
+"Use Poison Insect and Poison" : [30],
+"Poison Immunity" : [30,40,50,60,65,70,72],
+
+//Medical Treatment
+"Health Heist" : [10,11,14,17,20,23,26,29,32,35,45,50,55,60,65,70,72],
+"First Aid" : [10,13,16,19,22,25,28,31,34,37],
+"Regeneration" : [13,16,19,22,25,28,31,34,37,40,58],
+"Detox" : [20,30,40],
+"Born Again" : [16,22,28,34,40,46,52,58,64,70],
+"Heavy Health Heist" : [23,26,29,32,35,38,41,44,47,50,65,70,72],
+"Greater Healing" : [24,27,30,33,36,39,42,45,48,51],
+"Inner Magic" : [33,37,41,45,49,53,57,61,65,69,70],
+"Purify" : [25],
+"Ultimate Healing" : [40,44,48,52,56,60,64,68,70,73],
+
+//Croakus Pocus
+"Frogs' Legs Soup" : [14,17,20,23,26,29,32,35,38,41],
+"Frog Force" : [15,18,21,24,27,30,33,36,39,42,60],
+"Frog Forcefield" : [16,19,22,25,28,31,34,37,40,43,61],
+"Prolong Life" : [18,21,24,27,30,33,36,39,42,45,63],
+"Soup of Self Preservation" : [12,15,18,21,24,27,30,33,36,39,49,54,59,64,69,71],
+"Fantastic Frogs' Legs Soup" : [29,32,35,38,41,44,47,50,53,56],
+"Yin Frog" : [31,35,39,43,47,51,55,59,63,67,70],
+"Yang Frog" : [32,36,40,44,48,52,56,60,64,68,70],
+"Mega Magic Boost" : [28,31,34,37,40,43,46,49,52,55,70],
+"Mega Medicine" : [33,37,41,45,49,53,57,61,65,69],
+
+//Medical Knowledge
+"Equip Syringe" : [30],
+"Medkit Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Hand of Healing" : [30,40,50,60,65,70,72,73,74,75],
+
+//Musical Magic
+"Sonic Swipe" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Mystic Mantra" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,72,73,74,75],
+"Courageous Chorus" : [12,16,20,24,28,32,36,40,44,48],
+"Song of Concentration" : [13,17,21,25,29,33,37,41,45,49],
+"Diligent Ditty" : [13,17,21,25,29,33,37,41,45,49],
+"Supersonic Swipe" : [28,32,36,40,44,48,52,56,62,68],
+"Transfusion Tune" : [29,33,37,41,45,49,53,57,61,65,69,70,72,74,75],
+"Mars' Song" : [30,34,38,42,46,50,54,58,62,66],
+"Hymn to the Goddess" : [31,35,39,43,47,51,55,59,63,67],
+"Echo Guard" : [32,36,40,44,48,52,56,62,66,70],
+
+//Pet Sounds
+"Soothing Serenade" : [11,17,23,29,35,41,47,53,59,65,70],
+"Song of Serenity" : [12,18,24,30,36,42,48,54,60,66,70],
+"Power Ballad" : [13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70],
+"Defensive Ditty" : [14,18,22,26,30,34,38,42,46,50,54,58,62,66,70,71],
+"Cheery Tune" : [15,21,27,33,39,45,51,57,63,69,72],
+"Resurrect Pet" : [29],
+"Pet Snack Song" : [34,40,46,52,58,64,70,73],
+"Pet Training Song" : [30,34,38,42,46,50,54,58,62,66,70,71],
+"Pet Prayer" : [31,35,39,43,47,51,55,59,63,67,70,72],
+"Pet Praising Song" : [32,36,40,44,48,52,56,60,64,68,70,73],
+
+//Bardship
+"Equip Musical Instrument" : [30],
+"Musical Instrument Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Soul Music" : [30,40,50,60,65,70,72,73,74,75],
+
+//Fan Dancing
+"Ferocious Fandango" : [10,14,18,22,26,30,34,38,42,46],
+"Flying Swallow Fandango" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,70,73],
+"Fatiguing Fan" : [11,15,19,23,27,31,35,39,43,47],
+"Fleecing Fan" : [11,15,19,23,27,31,35,39,43,47],
+"Extractor Fan" : [13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,70],
+"Fancy Ferocious Fandango" : [26,30,34,38,42,46,50,54,58,62],
+"Flying Eagle Fandango" : [28,32,36,40,44,48,52,56,60,64,69,71],
+"Fang Fandango" : [27,31,35,39,43,47,51,55,59,63,68,70],
+"Phantom Fang Fandango" : [27,31,35,39,43,47,51,55,59,63,68,70],
+"Sandstorm Salsa" : [29,33,37,41,45,49,53,57,61,65],
+
+//Different Dances
+"Flaming Foxtrot" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67,70,71,72,73,74],
+"River Rhumba" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,48,70,71,72,73,74],
+"Soothing Shimmy" : [13,17,21,25,29,33,37,41,45,49],
+"Hypnotic Hoedown" : [13,17,21,25,29,33,37,41,45,49],
+"Enchanting Cha-Cha" : [12,16,20,24,28,32,36,40,44,48],
+"Joan's Jive" : [27,31,35,39,43,47,51,55,59,63,68,70,72,74,75],
+"Stream Spirit Shuffle" : [28,32,36,40,44,48,52,56,60,64,69,71,72,74,75],
+"Bestial Boogie" : [25,29,33,37,41,45,49,53,57,61],
+"Mating Dance" : [25,29,33,37,41,45,49,53,57,61],
+"Trance Dance" : [28,32,36,40,44,48,52,56,60,64],
+
+//Dancing Skill
+"Equip Fan" : [30],
+"Equip Dancewear" : [30],
+"Fan Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Flirting Glances" : [30,40,50,60,65,70,72],
+
+//Trade Secrets
+"HP Medicine Boost" : [10,14,24,34,44,54,64,71],
+"MP Medicine Boost" : [15,25,35,45,55,65,72],
+"Cash Withdrawal" : [12],
+"Construct Coin Shield" : [13,18,23,28,33,38,43,48,53,58,63,68,70],
+"Underwrite Life Insurance" : [19,27,35,43,51],
+"Make Metal Munchies" : [15,23,31,39,47,55],
+"Make Wood Munchies" : [15,23,31,39,47,55],
+"Make Earth Munchies" : [15,23,31,39,47,55],
+"Make Water Munchies" : [15,23,31,39,47,55],
+"Make Fire Munchies" : [15,23,31,39,47,55],
+
+//Money Talks
+"Coin Toss" : [10,15,20,25,30,35,40,45,50,55,59,63,67,70,71,72,73,74,75,75],
+"Extortion" : [11,16,21,26,31,36,41,46,51,56,60,64,68,70,71,72,73,74,75,75],
+"Mathemattack" : [12,17,22,27,32,37,42,47,52,57,62,67,71],
+"Money Rain" : [13,18,23,28,33,38,43,48,53,58],
+"Doubloon Discharge" : [30,35,40,45,50,55,60,65,70,71,72,73,74,75,75],
+"Blood Money" : [31,36,41,46,51,56,61,66,70,73],
+"Bankeruption" : [32,37,42,47,52,57,62,67,70],
+"Strapped for Cash" : [33,41,49,57,65],
+
+//Trading Skills
+"Equip Abacus" : [30],
+"Abacus Mastery" : [11,16,21,26,31,36,41,46,51,56],
+"Tax Break" : [14,22,30,38,46],
+"Stall Upgrade" : [15,20,25,30,35,40,45,50,55,60,65],
+"Cash Windfall" : [30,40,50,60,65,70,72],
+
+//Spells of The Five Elements
+"Blizzard's Curse" : [10,14,18,22,26,30,34,38,42,46,50,54,58,62,66],
+"Blackthorn's Curse" : [11,15,19,23,27,31,35,39,43,47,51,55,59,63,67],
+"Acid Rain's Curse" : [12,16,20,24,28,32,36,40,44,48,52,56,60,64,68],
+"Summer Solstice's Curse" : [13,17,21,25,29,33,37,41,45,49,53,57,61,65,69],
+"Scorched Earth's Curse" : [14,18,22,26,30,34,38,42,46,50,54,58,62,66,70],
+"Whirling Frost" : [26,31,36,41,46,51,56,61,66,71],
+"Tinges of Spring" : [27,32,37,42,47,52,57,62,67,72],
+"Fallen Rain" : [27,32,37,42,47,52,57,62,67,72],
+"Fire of Sultry Summer" : [28,33,38,43,48,53,58,63,68,73],
+"Vines of Early Autumn" : [29,34,39,44,49,54,59,64,69,74],
+
+//Puppet Control
+"Puppet Prolong Life" : [10,19,25,31,37,43,49,55,61,67],
+"Puppet Frog Force" : [14,20,26,32,38,44,50,56,62,68],
+"Puppet Yin Frog" : [15,21,27,33,39,45,51,57,63,69],
+"Puppet Premonition" : [16,22,28,34,40,46,52,58,64,70],
+"Puppet Spring Cleaning" : [17,23,29,35,41,47,53,59,65,71],
+"Puppet Metal Spirits" : [31,35,39,43,47,51,55,59,63,67],
+"Puppet Wood Spirits" : [32,36,40,44,48,52,56,60,64,68],
+"Puppet Water Spirits" : [33,37,41,45,49,53,57,61,65,69],
+"Puppet Fire Spirits" : [34,38,42,46,50,54,58,62,66,70],
+"Puppet Earth Spirits" : [35,39,43,47,51,55,59,63,67,71],
+
+//Sorcerer's Knowledge
+"Godlike Demeanor" : [10,10,10,10,10,10,10,10,10,10],
+"Aura of Universe" : [10,10,10,10,10,10,10,10,10,10],
+};
+
+skillsdictpoints = {
+
+//Commoner Skills
+"Rising Water Level" : [0,3,6,6,12,12,15],
+"Forestry Finesse" : [0,3,6,6,12,12,15],
+"Farming Finesse" : [0,3,6,6,12,12,15],
+"Maxi-Mining" : [0,3,6,6,12,12,15],
+"Heightened Herding" : [0,3,6,6,12,12,15],
+"Thickening Thoughts" : [0,3,6,6,12,12,15],
+"Apex of Alchemy" : [0,3,6,6,12,12,15,15,24,24],
+"Thrifty Saver" : [2,2,2,2,2,2],
+
+//Elemental Attacks
+"Boundless Falling Leaves" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Raging Torrent" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Rolling Thunder" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Burning Backdraft" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Looming Mountain" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Howling Wind" : [2,2,2,2,2,2,2,2,2,2],
+"Crashing Waves" : [2,2,2,2,2,2,2,2,2,2],
+"Cracking Thunder" : [2,2,2,2,2,2,2,2,2,2],
+"Roaring Inferno" : [2,2,2,2,2,2,2,2,2,2],
+"Crushing Landslide" : [2,2,2,2,2,2,2,2,2,2],
+
+//Targeted Attacks
+"Stunning Strike" : [2,2,2,2,2,2,2,2,2,2],
+"Razzle Dazzle" : [2,2,2,2,2,2,2,2,2,2],
+"Slap on the Wrist" : [2,2,2,2,2,2,2,2,2,2],
+"Toughen Magic" : [2,2,2,2,2,2,2,2,2,2],
+"Magic Barrier" : [2,2,2,2,2,2,2,2,2,2],
+"Crippling Clout" : [2,2,2,2,2,2,2,2,2],
+"Sinister Saber" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Pressure Point Strike" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Offensive Aura" : [2,2,2,2,2,2,2,2,2,2],
+"Defensive Aura" : [2,2,2,2,2,2,2,2,2,2],
+
+//Fencing Skills
+"Equip Sword" : [15],
+"Saber Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Lightning Flash" : [2,2,2,2,2,2,2],
+
+//Bestial Attacks
+"Growling Tiger" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Fierce Bark" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Menacing Moo" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Hair-Raising Hiss" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Eagle Shriek" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Roaring Lion" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Howling Wolf" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Grizzling Bear" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Dragon's Call" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Phoenix Song" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+
+//Martyr Arts
+"Maniac Attack" : [2,2,2,2,2,2,2,2,2,2],
+"Berserker Blow" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Burning Rage" : [2,2,2,2,2,2,2,2,2,2],
+"Focus" : [2,2,2,2,2,2,2,2,2,2],
+"Lash Out" : [2,2,2,2,2,2,2,2,2,2],
+"Double-Edged Sword" : [2,2,2,2,2,2,2,2,2,2],
+"Mindless Slaughter" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"All-Out Assault" : [2,2,2,2,2,2,2,2,2,2],
+"Concentration" : [2,2,2,2,2],
+"Sneak Attack" : [2],
+
+//Blademaster Skills
+"Equip Saber" : [15],
+"Equip Light Armor" : [15],
+"Saber Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Tiger and Dragon Slaying" : [2,2,2,2,2,2,2,2,2,2],
+
+//Ax Attacks
+"Splitting Chop" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Owl Slash" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Precision Strike" : [2,2,2,2,2,2,2,2,2,2],
+"Better-Blocker" : [2,2,2,2,2,2,2,2,2,2],
+"Taunt" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Cross Chop" : [2,2,2,2,2,2,2,2,2,2],
+"All Bets Are Off" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"All or Nothing" : [2,2,2,2,2,2,2,2,2,2],
+"Iron Curtain" : [2,2,2,2,2,2,2,2,2,2],
+"Mock Monsters" : [2,2,2,2,2,2,2,2,2,2],
+
+//Spear Attacks
+"Stabbing Strike" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Wicked Windmill" : [2,2,2,2,2,2,2,2,2,2],
+"Goose Formation" : [2,2,2,2,2,2,2,2,2,2],
+"Circle Formation" : [2,2,2,2,2,2,2,2,2,2],
+"Dustpan Formation" : [2,2,2,2,2,2,2,2,2,2],
+"Stick and Twist" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Corkscrew Slice" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Arrow Formation" : [2,2,2,2,2,2,2,2,2,2],
+"Snake Formation" : [2,2,2,2,2,2,2,2,2,2],
+"Crane Formation" : [2,2,2,2,2,2,2,2,2,2],
+
+//Mercenary Skills
+"Equip Spear" : [15],
+"Equip Ax" : [15],
+"Equip Heavy Armor" : [15],
+"Equip Shield" : [15],
+"Spear Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Ax Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Bronze Sinew Iron Bone" : [2,2,2,2,2,2,2,2,2,2],
+
+//Power Attacks
+"Penetrating Blow" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Armlock" : [2,2,2,2,2,2,2,2,2,2],
+"Flying Fist" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Seismic Shudder" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Knockout" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Far-Flung Fist" : [2,2,2,2,2,2,2,2,2,2],
+"Smash and Grab" : [2,2,2,2,2,2,2,2,2],
+"Fortifying Force" : [2,2,2,2,2,2,2,2,2],
+"Tranquil Turtle" : [2,2,2,2,2,2,2,2,2],
+"Jawbreaker" : [2,2,2,2,2,2,2,2,2],
+
+//Staff Attacks
+"Coiled Serpent Staff" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Swizzle Stick" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Cloudshaker Staff" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Meditation" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Elbow" : [2,2,2,2,2,2,2,2,2,2],
+"Staff Dance" : [2,2,2,2,2,2,2,2,2,2],
+"Dragon Guard" : [2,2,2,2,2,2,2,2,2],
+"Staff Whip" : [2,2,2,2,2,2,2,2,2],
+"Channel Energy" : [2,2,2,2,2,2,2,2,2],
+"Break Weapon" : [2,2,2,2,2,2,2,2,2],
+
+//Martial Arts
+"Equip Boxing Gloves" : [15],
+"Equip Staff" : [15],
+"Boxing Gloves Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Staff Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Endless River" : [2,2,2,2,2,2,2],
+
+//Archery
+"Full Draw" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Additive Arrow" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Dart Deluge" : [2,2,2,2,2,2,2,2,2,2],
+"Arrow Alchemy" : [2,2,2,2,2,2,2,2,2,2],
+"Assassin's Arrow" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Strongbow" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Two Birds with One Stone" : [2,2,2,2,2,2,2,2,2,2],
+"Dark Deluge" : [2,2,2,2,2,2,2,2,2,2],
+"Bowstring Shockwave" : [2,2,2,2,2,2,2,2,2,2],
+"Demonslayer Arrow" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+
+//Hunter's Instincts
+"Unerring Aim" : [2,2,2,2,2,2,2,2,2,2],
+"Sneak Peek" : [3],
+"Concentrated Fury" : [2,2,2,2,2,2,2,2,2,2],
+"Ankle Strike" : [2,2,2,2,2,2,2,2,2,2],
+"Appease" : [2,2,2,2,2,2,2,2,2,2],
+"Ready for Action" : [2,2,2,2,2,2,2,2,2,2],
+"Aim" : [2,2,2,2,2,2,2,2,2,2],
+"Poison Weapon" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Weak Spotter" : [2,2,2,2,2,2,2,2,2,2],
+"Go For the Throat" : [2,2,2,2,2,2,2,2,2,2,2,2],
+
+//Hunting Skills
+"Equip Bow" : [15],
+"Bow Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Sharpened Arrow" : [2,2,2,2,2,2,2,2,2,2],
+
+//Close Combat
+"Super Stab" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Swift Swallow Strike" : [2,2,2,2,2,2,2,2,2,2],
+"Control Breathing" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Premonition" : [2,2,2,2,2,2,2,2,2,2],
+"Throw Knife" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Stealthy Stab" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Whirling Dervish" : [2,2,2,2,2,2,2,2,2,2],
+"Rhythm of Life" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Fighting Foresight" : [2,2,2,2,2,2,2,2,2,2],
+"Light Hammer Throw" : [2,2,2,2,2,2,2,2,2,2,2,2],
+
+//Sneak Attacks
+"Bolt From the Blouse" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Ash Spray" : [2,2,2,2,2,2,2,2,2,2],
+"Fast Getaway" : [2,2,2,2,2,2,2,2,2,2],
+"Hypnosis" : [2,2,2,2,2,2,2,2,2,2],
+"Pilfer" : [0,2,2,2,2,2,2,2,2,2],
+"Veiled Volley" : [2,2,2,2,2,2,2,2,2,2],
+"Shadow Advance" : [2,2,2,2,2,2,2,2,2,2],
+"Run Amok" : [2,2,2,2,2,2,2,2,2,2],
+"Play Dead" : [3],
+"Pillage" : [2,2,2,2,2,2,2,2,2,2],
+
+//Thieving Skills
+"Equip Dagger" : [15],
+"Equip Clothing" : [15],
+"Dagger Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Floating Walk" : [2,2,2,2,2,2,2],
+
+//Seasonal Magic
+"Snow Shower" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Ides of March" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Tidal Torrent" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Heatstroke Hex" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Coming of Autumn" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Blizzard" : [2,2,2,2,2,2,2,2,2,2],
+"Blackthorn" : [2,2,2,2,2,2,2,2,2,2],
+"Acid Rain" : [2,2,2,2,2,2,2,2,2,2],
+"Summer Solstice" : [2,2,2,2,2,2,2,2,2,2],
+"Scorched Earth" : [2,2,2,2,2,2,2,2,2,2],
+
+//Nature Magic
+"Summer Sun" : [2,2,2,2,2,2,2,2,2,2],
+"Hoar Frost" : [2,2,2,2,2,2,2,2,2,2],
+"Spring Cleaning" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Heavy Frost" : [2,2,2,2,2,2,2,2,2,2],
+"Heatstroke" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Deep Heat" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Frostbite" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Malicious Mirror" : [2,2,2,2,2,2,2,2,2,2],
+"Choking Climber" : [2,2,2,2,2,2,2,2,2,2],
+"Swarm" : [2,2,2,2,2,2,2,2,2,2,2,2],
+
+//Shaman Skills
+"Equip Wand" : [15],
+"Mega Magic" : [3,3,3,3,3,3,3,3,3,3],
+"Yin-Yang Transform" : [0,0,0,0,0,0,0],
+
+//Scrollcasting
+"Scorching Scroll" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Explosive Runes" : [2,2,2,2,2,2,2,2,2,2],
+"Lightning Runes" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Toppling Tremor" : [2,2,2,2,2,2,2,2,2,2],
+"Acid Rain Scroll" : [2,2,2,2,2,2,2,2,2,2],
+"Secret Charm of Searing Flame" : [2,2,2,2,2,2,2,2,2,2],
+"Secret Charm of Shrieking Demons" : [2,2,2,2,2,2,2,2],
+"Secret Charm of Rolling Thunder" : [2,2,2,2,2,2,2,2,2,2],
+"Secret Charm of Thorns" : [2,2,2,2,2,2,2,2,2,2],
+"Speeding Ticket" : [2,2,2,2,2],
+
+//Spellcasting
+"Chant of Impure Thoughts" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Warning Warble" : [2,2,2,2,2,2,2,2,2,2],
+"Stalling Chant" : [2,2,2,2,2,2,2,2,2,2],
+"Cataclysmic Converter" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Chant of Liberation" : [2,3],
+"Secret of the Metal Spirit" : [6,1,1,1,1,1,1,1,1,1],
+"Secret of the Wood Spirit" : [6,1,1,1,1,1,1,1,1,1],
+"Secret of the Earth Spirit" : [6,1,1,1,1,1,1,1,1,1],
+"Secret of the Water Spirit" : [6,1,1,1,1,1,1,1,1,1],
+"Secret of the Fire Spirit" : [6,1,1,1,1,1,1,1,1,1],
+
+//Magical Skills
+"Equip Robes" : [15],
+"Finding Enlightenment" : [2,2,2,2,2,2,2,2,2,2],
+
+//Poisoning
+"Agony Bug" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Bloodthirsty Bug" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Toxin Detonating Bug" : [2,2,2,2,2,2,2,2,2,2],
+"Poison-Purifying Bug" : [2,2,2,2,2,2,2,2,2,2],
+"Sanctuary Scarab" : [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+"Explosive Bug" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Souleater Bug" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Plant Summoning Bug" : [6,1,1,1,1,1,1,1],
+"Plant Puppet Bugs" : [6,1,1,1,1,1,1,1],
+"Plant Skill Bugs" : [6,1,1,1,1,1,1,1],
+
+//Blood Curse Poison
+"Liquid Venom" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Poison Strike" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Stalling Poison" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Blood Boil" : [2,2,2,2,2,2,2,2,2,2,2],
+"Martial Hex" : [2,2,2,2,2,2,2,2,2,2],
+"Poison Fog" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Poison Needles" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Hundred Step Poison" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Poisonous Blood" : [2,2,2,2,2,2,2,2,2,2,2],
+"Withered Earth" : [2,2,2,2,2,2,2,2],
+
+//Voodoo Magic
+"Use Poison Insect and Poison" : [15],
+"Poison Immunity" : [2,2,2,2,2,2,2],
+
+//Medical Treatment
+"Health Heist" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"First Aid" : [0,2,2,2,2,2,2,2,2,2],
+"Regeneration" : [2,2,2,2,2,2,2,2,2,2,5],
+"Detox" : [4,1,5],
+"Born Again" : [2,2,2,2,2,2,2,2,2,2],
+"Heavy Health Heist" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Greater Healing" : [2,2,2,2,2,2,2,2,2,2],
+"Inner Magic" : [2,2,2,2,2,2,2,2,2,2,2],
+"Purify" : [4],
+"Ultimate Healing" : [2,2,2,2,2,2,2,2,2,2],
+
+//Croakus Pocus
+"Frogs' Legs Soup" : [2,2,2,2,2,2,2,2,2,2],
+"Frog Force" : [2,2,2,2,2,2,2,2,2,2,5],
+"Frog Forcefield" : [2,2,2,2,2,2,2,2,2,2,5],
+"Prolong Life" : [2,2,2,2,2,2,2,2,2,2,5],
+"Soup of Self Preservation" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Fantastic Frogs' Legs Soup" : [2,2,2,2,2,2,2,2,2,2],
+"Yin Frog" : [2,2,2,2,2,2,2,2,2,2,5],
+"Yang Frog" : [2,2,2,2,2,2,2,2,2,2,5],
+"Mega Magic Boost" : [2,2,2,2,2,2,2,2,2,2,5],
+"Mega Medicine" : [2,2,2,2,2,2,2,2,2,2],
+
+//Medical Knowledge
+"Equip Syringe" : [15],
+"Medkit Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Hand of Healing" : [2,2,2,2,2,2,2,2,2,2],
+
+//Musical Magic
+"Sonic Swipe" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Mystic Mantra" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Courageous Chorus" : [2,2,2,2,2,2,2,2,2,2],
+"Song of Concentration" : [2,2,2,2,2,2,2,2,2,2],
+"Diligent Ditty" : [2,2,2,2,2,2,2,2,2,2],
+"Supersonic Swipe" : [2,2,2,2,2,2,2,2,2,2],
+"Transfusion Tune" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Mars' Song" : [2,2,2,2,2,2,2,2,2,2],
+"Hymn to the Goddess" : [2,2,2,2,2,2,2,2,2,2],
+"Echo Guard" : [2,2,2,2,2,2,2,2,2,2],
+
+//Pet Sounds
+"Soothing Serenade" : [2,2,2,2,2,2,2,2,2,2,2],
+"Song of Serenity" : [2,2,2,2,2,2,2,2,2,2,2],
+"Power Ballad" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Defensive Ditty" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Cheery Tune" : [2,2,2,2,2,2,2,2,2,2,2],
+"Resurrect Pet" : [10],
+"Pet Snack Song" : [2,2,2,2,2,2,2,2],
+"Pet Training Song" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Pet Prayer" : [2,2,2,2,2,2,2,2,2,2,2],
+"Pet Praising Song" : [2,2,2,2,2,2,2,2,2,2,2,2],
+
+//Bardship
+"Equip Musical Instrument" : [15],
+"Musical Instrument Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Soul Music" : [2,2,2,2,2,2,2,2,2,2],
+
+//Fan Dancing
+"Ferocious Fandango" : [0,2,2,2,2,2,2,2,2,2],
+"Flying Swallow Fandango" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Fatiguing Fan" : [2,2,2,2,2,2,2,2,2,2],
+"Fleecing Fan" : [2,2,2,2,2,2,2,2,2,2],
+"Extractor Fan" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Fancy Ferocious Fandango" : [2,2,2,2,2,2,2,2,2,2],
+"Flying Eagle Fandango" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Fang Fandango" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Phantom Fang Fandango" : [2,2,2,2,2,2,2,2,2,2,2,2],
+"Sandstorm Salsa" : [2,2,2,2,2,2,2,2,2,2],
+
+//Different Dances
+"Flaming Foxtrot" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"River Rhumba" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Soothing Shimmy" : [2,2,2,2,2,2,2,2,2,2],
+"Hypnotic Hoedown" : [2,2,2,2,2,2,2,2,2,2],
+"Enchanting Cha-Cha" : [2,2,2,2,2,2,2,2,2,2],
+"Joan's Jive" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Stream Spirit Shuffle" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Bestial Boogie" : [2,2,2,2,2,2,2,2,2,2],
+"Mating Dance" : [2,2,2,2,2,2,2,2,2,2],
+"Trance Dance" : [2,2,2,2,2,2,2,2,2,2],
+
+//Dancing Skill
+"Equip Fan" : [15],
+"Equip Dancewear" : [15],
+"Fan Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Flirting Glances" : [2,2,2,2,2,2,2],
+
+//Trade Secrets
+"HP Medicine Boost" : [0,2,2,2,2,2,2,2],
+"MP Medicine Boost" : [2,2,2,2,2,2,2],
+"Cash Withdrawal" : [2],
+"Construct Coin Shield" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Underwrite Life Insurance" : [4,4,4,4,4],
+"Make Metal Munchies" : [3,3,3,3,3,3],
+"Make Wood Munchies" : [3,3,3,3,3,3],
+"Make Earth Munchies" : [3,3,3,3,3,3],
+"Make Water Munchies" : [3,3,3,3,3,3],
+"Make Fire Munchies" : [3,3,3,3,3,3],
+
+//Money Talks
+"Coin Toss" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Extortion" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Mathemattack" : [2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Money Rain" : [2,2,2,2,2,2,2,2,2,2],
+"Doubloon Discharge" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Blood Money" : [2,2,2,2,2,2,2,2,2,2],
+"Bankeruption" : [2,2,2,2,2,2,2,2,2],
+"Strapped for Cash" : [2,2,2,2,2],
+
+//Trading Skills
+"Equip Abacus" : [15],
+"Abacus Mastery" : [2,2,2,2,2,2,2,2,2,2],
+"Tax Break" : [0,0,0,0,0],
+"Stall Upgrade" : [0,0,0,0,0,0,0,0,0,0,0],
+"Cash Windfall" : [2,2,2,2,2,2,2],
+
+//Spells of The Five Elements
+"Blizzard's Curse" : [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Blackthorn's Curse" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Acid Rain's Curse" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Summer Solstice's Curse" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Scorched Earth's Curse" : [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+"Whirling Frost" : [2,2,2,2,2,2,2,2,2,2],
+"Tinges of Spring" : [2,2,2,2,2,2,2,2,2,2],
+"Fallen Rain" : [2,2,2,2,2,2,2,2,2,2],
+"Fire of Sultry Summer" : [2,2,2,2,2,2,2,2,2,2],
+"Vines of Early Autumn" : [2,2,2,2,2,2,2,2,2,2],
+
+//Puppet Control
+"Puppet Prolong Life" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Frog Force" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Yin Frog" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Premonition" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Spring Cleaning" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Metal Spirits" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Wood Spirits" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Water Spirits" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Fire Spirits" : [2,2,2,2,2,2,2,2,2,2],
+"Puppet Earth Spirits" : [2,2,2,2,2,2,2,2,2,2],
+
+//Sorcerer's Knowledge
+"Godlike Demeanor" : [3,2,2,2,2,2,2,2,2,2],
+"Aura of Universe" : [3,3,3,3,3,3,3,3,3,3],
+};
+
+skillsdictprereq = {
+//Commoner Skills
+
+//Elemental Attacks
+"Howling Wind" : {"Boundless Falling Leaves" : [5,5,5,5,5,5,5,5,5,5],},
+"Crashing Waves" : {"Raging Torrent" : [5,5,5,5,5,5,5,5,5,5],},
+"Cracking Thunder" : {"Rolling Thunder" : [5,5,5,5,5,5,5,5,5,5],},
+"Roaring Inferno" : {"Burning Backdraft" : [5,5,5,5,5,5,5,5,5,5],},
+"Crushing Landslide" : {"Looming Mountain" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Targeted Attacks
+"Crippling Clout" : {"Stunning Strike" : [2,2,2,2,2,2,2,2,2],},
+"Sinister Saber" : {"Razzle Dazzle" : [2,2,2,2,2,2,2,2,2,2,2,2,2],},
+"Pressure Point Strike" : {"Slap on the Wrist" : [2,2,2,2,2,2,2,2,2,2,2,2,2],},
+"Offensive Aura" : {"Toughen Magic" : [5,5,5,5,5,5,5,5,5,5],},
+"Defensive Aura" : {"Magic Barrier" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Fencing Skills
+
+//Bestial Attacks
+"Roaring Lion" : {"Growling Tiger" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Howling Wolf" : {"Fierce Bark" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Grizzling Bear" : {"Menacing Moo" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Dragon's Call" : {"Hair-Raising Hiss" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Phoenix Song" : {"Eagle Shriek" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+
+//Martyr Arts
+"Double-Edged Sword" : {"Maniac Attack" : [5,5,5,5,5,5,5,5,5,5],},
+"Mindless Slaughter" : {"Berserker Blow" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"All-Out Assault" : {"Burning Rage" : [5,5,5,5,5,5,5,5,5,5],},
+"Concentration" : {"Focus" : [5,5,5,5,5],},
+"Sneak Attack" : {"Lash Out" : [5],},
+
+//Blademaster Skills
+
+//Ax Attacks
+"Cross Chop" : {"Splitting Chop" : [5,5,5,5,5,5,5,5,5,5],"Owl Slash" : [0,0,0,0,0,0,0,0,0,5],},
+"All Bets Are Off" : {"Owl Slash" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"All or Nothing" : {"Precision Strike" : [5,5,5,5,5,5,5,5,5,5],},
+"Iron Curtain" : {"Better-Blocker" : [5,5,5,5,5,5,5,5,5,5],},
+"Mock Monsters" : {"Taunt" : [3,3,3,3,3,3,3,3,3,3],},
+
+//Spear Attacks
+"Stick and Twist" : {"Stabbing Strike" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Corkscrew Slice" : {"Wicked Windmill" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Arrow Formation" : {"Goose Formation" : [4,4,4,4,4,4,4,4,4,4],},
+"Snake Formation" : {"Circle Formation" : [4,4,4,4,4,4,4,4,4,4],},
+"Crane Formation" : {"Dustpan Formation" : [4,4,4,4,4,4,4,4,4,4],},
+
+//Mercenary Skills
+
+//Power Attacks
+"Far-Flung Fist" : {"Penetrating Blow" : [5,5,5,5,5,5,5,5,5,5],},
+"Smash and Grab" : {"Armlock" : [5,5,5,5,5,5,5,5,5],},
+"Fortifying Force" : {"Flying Fist" : [5,5,5,5,5,5,5,5,5],},
+"Tranquil Turtle" : {"Seismic Shudder" : [5,5,5,5,5,5,5,5,5],},
+"Jawbreaker" : {"Knockout" : [5,5,5,5,5,5,5,5,5],},
+
+//Staff Attacks
+"Staff Dance" : {"Coiled Serpent Staff" : [5,5,5,5,5,5,5,5,5,5],},
+"Dragon Guard" : {"Swizzle Stick" : [5,5,5,5,5,5,5,5,5],},
+"Staff Whip" : {"Cloudshaker Staff" : [5,5,5,5,5,5,5,5,5],},
+"Channel Energy" : {"Meditation" : [5,5,5,5,5,5,5,5,5],},
+"Break Weapon" : {"Meditation" : [5,5,5,5,5,5,5,5,5],},
+
+//Martial Arts
+
+//Archery
+"Strongbow" : {"Full Draw" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Two Birds with One Stone" : {"Additive Arrow" : [5,5,5,5,5,5,5,5,5,5],},
+"Dark Deluge" : {"Dart Deluge" : [5,5,5,5,5,5,5,5,5,5],},
+"Bowstring Shockwave" : {"Arrow Alchemy" : [5,5,5,5,5,5,5,5,5,5],},
+"Demonslayer Arrow" : {"Assassin's Arrow" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+
+//Hunter's Instincts
+"Ready for Action" : {"Unerring Aim" : [5,5,5,5,5,5,5,5,5,5],},
+"Aim" : {"Sneak Peek" : [1,1,1,1,1,1,1,1,1,1],},
+"Poison Weapon" : {"Concentrated Fury" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Weak Spotter" : {"Ankle Strike" : [5,5,5,5,5,5,5,5,5,5],},
+"Go For the Throat" : {"Appease" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+
+//Hunting Skills
+
+//Close Combat
+"Stealthy Stab" : {"Super Stab" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Whirling Dervish" : {"Swift Swallow Strike" : [5,5,5,5,5,5,5,5,5,5],},
+"Rhythm of Life" : {"Control Breathing" : [5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Fighting Foresight" : {"Premonition" : [5,5,5,5,5,5,5,5,5,5],},
+"Light Hammer Throw" : {"Throw Knife" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+
+//Sneak Attacks
+"Veiled Volley" : {"Bolt From the Blouse" : [5,5,5,5,5,5,5,5,5,5],},
+"Shadow Advance" : {"Ash Spray" : [5,5,5,5,5,5,5,5,5,5],},
+"Run Amok" : {"Fast Getaway" : [5,5,5,5,5,5,5,5,5,5],},
+"Play Dead" : {"Hypnosis" : [5],},
+"Pillage" : {"Pilfer" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Thieving Skills
+
+//Seasonal Magic
+"Blizzard" : {"Snow Shower" : [4,4,4,4,4,4,4,4,4,4],},
+"Blackthorn" : {"Ides of March" : [4,4,4,4,4,4,4,4,4,4],},
+"Acid Rain" : {"Tidal Torrent" : [4,4,4,4,4,4,4,4,4,4],},
+"Summer Solstice" : {"Heatstroke Hex" : [4,4,4,4,4,4,4,4,4,4],},
+"Scorched Earth" : {"Coming of Autumn" : [4,4,4,4,4,4,4,4,4,4],},
+
+//Nature Magic
+"Deep Heat" : {"Summer Sun" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Frostbite" : {"Hoar Frost" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Malicious Mirror" : {"Spring Cleaning" : [5,5,5,5,5,5,5,5,5,5],},
+"Choking Climber" : {"Heavy Frost" : [5,5,5,5,5,5,5,5,5,5],},
+"Swarm" : {"Heatstroke" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+
+//Shaman Skills
+"Yin-Yang Transform" : {"Mega Magic" : [1,2,3,4,5,6,7],},
+
+//Scrollcasting
+"Secret Charm of Searing Flame" : {"Scorching Scroll" : [4,4,4,4,4,4,4,4,4,4],},
+"Secret Charm of Shrieking Demons" : {"Explosive Runes" : [4,4,4,4,4,4,4,4],},
+"Secret Charm of Rolling Thunder" : {"Lightning Runes" : [4,4,4,4,4,4,4,4,4,4],},
+"Secret Charm of Thorns" : {"Toppling Tremor" : [4,4,4,4,4,4,4,4,4,4],},
+
+//Spellcasting
+
+//Magical Skills
+
+//Poisoning
+"Explosive Bug" : {"Agony Bug" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Souleater Bug" : {"Bloodthirsty Bug" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+
+//Blood Curse Poison
+"Poison Fog" : {"Liquid Venom" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Poison Needles" : {"Poison Strike" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Hundred Step Poison" : {"Stalling Poison" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Poisonous Blood" : {"Blood Boil" : [5,5,5,5,5,5,5,5,5,5,5],},
+"Withered Earth" : {"Martial Hex" : [4,4,4,4,4,4,4,4],},
+
+//Voodoo Magic
+
+//Medical Treatment
+"Regeneration" : {"Inner Magic" : [0,0,0,0,0,0,0,0,0,0,6],},
+"Heavy Health Heist" : {"Health Heist" : [5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Greater Healing" : {"First Aid" : [5,5,5,5,5,5,5,5,5,5],},
+"Inner Magic" : {"Regeneration" : [6,6,6,6,6,6,6,6,6,6,6],},
+"Purify" : {"Detox" : [1],},
+"Ultimate Healing" : {"Born Again" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Croakus Pocus
+"Frog Force" : {"Yin Frog" : [0,0,0,0,0,0,0,0,0,0,5],},
+"Frog Forcefield" : {"Yang Frog" : [0,0,0,0,0,0,0,0,0,0,5],},
+"Prolong Life" : {"Mega Magic Boost" : [0,0,0,0,0,0,0,0,0,0,4],},
+"Fantastic Frogs' Legs Soup" : {"Frogs' Legs Soup" : [5,5,5,5,5,5,5,5,5,5],},
+"Yin Frog" : {"Frog Force" : [5,5,5,5,5,5,5,5,5,5],},
+"Yang Frog" : {"Frog Forcefield" : [5,5,5,5,5,5,5,5,5,5,5],},
+"Mega Magic Boost" : {"Prolong Life" : [4,4,4,4,4,4,4,4,4,4,4],},
+"Mega Medicine" : {"Soup of Self Preservation" : [6,6,6,6,6,6,6,6,6,6],},
+
+//Medical Knowledge
+
+//Musical Magic
+"Supersonic Swipe" : {"Sonic Swipe" : [5,5,5,5,5,5,5,5,5,5],},
+"Transfusion Tune" : {"Mystic Mantra" : [5,6,7,8,9,10,11,12,13,14,15,15,15,15,15],},
+"Mars' Song" : {"Courageous Chorus" : [5,6,7,8,9,10,10,10,10,10],"Song of Concentration" : [1,1,2,2,3,3,4,4,5,5],"Diligent Ditty" : [1,1,2,2,3,3,4,4,5,5],},
+"Hymn to the Goddess" : {"Courageous Chorus" : [1,1,2,2,3,3,4,4,5,5],"Song of Concentration" : [5,6,7,8,9,10,10,10,10,10],"Diligent Ditty" : [1,1,2,2,3,3,4,4,5,5],},
+"Echo Guard" : {"Courageous Chorus" : [1,1,2,2,3,3,4,4,5,5],"Song of Concentration" : [1,1,2,2,3,3,4,4,5,5],"Diligent Ditty" : [5,6,7,8,9,10,10,10,10,10],},
+
+//Pet Sounds
+"Resurrect Pet" : {"Soothing Serenade" : [3],"Song of Serenity" : [3],},
+"Pet Snack Song" : {"Soothing Serenade" : [4,4,4,4,4,4,4,4],"Song of Serenity" : [4,4,4,4,4,4,4,4],},
+"Pet Training Song" : {"Power Ballad" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Pet Prayer" : {"Defensive Ditty" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Pet Praising Song" : {"Cheery Tune" : [3,3,3,3,3,3,3,3,3,3,3,3],},
+
+//Bardship
+
+//Fan Dancing
+"Fancy Ferocious Fandango" : {"Ferocious Fandango" : [5,5,5,5,5,5,5,5,5,5],},
+"Flying Eagle Fandango" : {"Flying Swallow Fandango" : [5,5,5,5,5,5,5,5,5,5,5],},
+"Fang Fandango" : {"Fatiguing Fan" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Phantom Fang Fandango" : {"Fleecing Fan" : [5,5,5,5,5,5,5,5,5,5,5,5],},
+"Sandstorm Salsa" : {"Extractor Fan" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Different Dances
+"Joan's Jive" : {"Flaming Foxtrot" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Stream Spirit Shuffle" : {"River Rhumba" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Bestial Boogie" : {"Soothing Shimmy" : [4,4,4,4,4,4,4,4,4,4],},
+"Mating Dance" : {"Hypnotic Hoedown" : [4,4,4,4,4,4,4,4,4,4],},
+"Trance Dance" : {"Enchanting Cha-Cha" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Dancing Skill
+
+//Trade Secrets
+
+//Money Talks
+"Doubloon Discharge" : {"Coin Toss" : [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],},
+"Blood Money" : {"Extortion" : [5,5,5,5,5,5,5,5,5,5],},
+"Bankeruption" : {"Mathemattack" : [5,5,5,5,5,5,5,5,5],},
+
+//Trading Skills
+
+//Spells of The Five Elements
+"Whirling Frost" : {"Blizzard's Curse" : [5,5,5,5,5,5,5,5,5,5],},
+"Tinges of Spring" : {"Blackthorn's Curse" : [5,5,5,5,5,5,5,5,5,5],},
+"Fallen Rain" : {"Acid Rain's Curse" : [5,5,5,5,5,5,5,5,5,5],},
+"Fire of Sultry Summer" : {"Summer Solstice's Curse" : [5,5,5,5,5,5,5,5,5,5],},
+"Vines of Early Autumn" : {"Scorched Earth's Curse" : [5,5,5,5,5,5,5,5,5,5],},
+
+//Puppet Control
+
+//Sorcerer's Knowledge
+};
+</textarea>
+  </div>
+<script>
+var currentclass = -1;
+var classes;
+var skillsdicti;
+var skillsdictii;
+var skillsdictiii;
+var skillsdict;
+var skillsdictlevel;
+var skillsdictpoints;
+var skillsdictprereq;
+var lvl = 1;
+var points = 0;
+
+function setUpSkills() {
+	var sclasschosen = hclasschosen.value;
+	var classchosen = classes.indexOf(sclasschosen);
+	var stn = "i";
+	var ord = 0;
+	var htmlcode = "";
+	var lcalc = 0;
+	var ccalc = 0;
+	var lsprings = 0;
+	var csprings = 0;
+	var osprings = 0;
+	var slv = 0;
+	var smax = 0;
+
+	if (classchosen != -1 && classchosen != currentclass) {
+		currentclass = classchosen;
+    hclassicon.src = "./" + sclasschosen + "/c.png";
+		hskillsiname.innerHTML = skillsdicti[sclasschosen];
+		hskillsiiname.innerHTML = skillsdictii[sclasschosen];
+		hskillsiiiname.innerHTML = skillsdictiii[sclasschosen];
+    if (hskillsiname.innerHTML == "undefined")
+    {
+    	hskillsiname.innerHTML = "No Active";
+    }
+    if (hskillsiiname.innerHTML == "undefined")
+    {
+    	hskillsiiname.innerHTML = "No Active";
+    }
+		hskillsi.innerHTML = "";
+		hskillsii.innerHTML = "";
+		hskillsiii.innerHTML = "";
+		var stn = "i";
+		for (var i = 0; i < 5; i++) {            
+  		stn = "i"
+  		ord = i;
+  		htmlcode = "<tr style=\"height:42px;\">";
+  		htmlcode += setUpSkillHTML(stn, ord);
+  		ord = i + 5;
+  		htmlcode += setUpSkillHTML(stn, ord);
+  		htmlcode += "</tr>"
+  		hskillsi.innerHTML += htmlcode;      
+			stn = "ii";
+  		ord = i;
+  		htmlcode = "<tr style=\"height:42px;\">";
+  		htmlcode += setUpSkillHTML(stn, ord);
+  		ord = i + 5;
+  		htmlcode += setUpSkillHTML(stn, ord);
+  		htmlcode += "</tr>"
+  		hskillsii.innerHTML += htmlcode;			
+      stn = "iii";
+			ord = i;
+			htmlcode = "<tr style=\"height:42px;\">";
+			htmlcode += setUpSkillHTML(stn, ord);
+			ord = i + 5;
+			htmlcode += setUpSkillHTML(stn, ord);
+			htmlcode += "</tr>"
+			hskillsiii.innerHTML += htmlcode;
+		}
+		for (var i = 0; i < 10; i++) {
+			setUpIndSkillHTML("i", i);
+			setUpIndSkillHTML("ii", i);
+			setUpIndSkillHTML("iii", i);
+		}
+	}
+	recalculate();
+}
+
+function recalculate() {
+	var sclasschosen = hclasschosen.value;
+	var lcalc = 0;
+	var ccalc = 0;
+	var lsprings = 0;
+	var csprings = 0;
+	var osprings = 0;
+	var slv = 0;
+	var smax = 0;
+	if (hlvl.value == "") {
+		hlvl.value = 1;
+		lvl = 1;
+	} else {
+		lvl = parseInt(hlvl.value);
+		if (isNaN(lvl)) {
+			alert("Level value error");
+			hlvl.value = 1;
+			lvl = 1;
+		}
+	}
+
+	lcalc = Math.floor(lvl / 10) - 1;
+  if (lcalc < 0)
+  {
+    lcalc = 0;
+  }
+	if (lcalc > 3) {
+		lcalc = 3;
+	}
+  lcalc += 5;
+	ccalc = Math.floor((lvl - 10) / 2);
+	points = (lvl - 1) * 3;
+	if (sclasschosen != "Commoner") {
+		if (lvl < 10) {
+			lvl = 10;
+			hlvl.value = 10;
+		}
+		lcalc -= 5;
+		points -= 27;
+		if (points < 0) {
+			points = 0;
+		}
+	}
+	if (lcalc < 0) {
+		lcalc = 0;
+	}
+	if (ccalc < 0) {
+		ccalc = 0;
+	}
+	hlcalc.innerHTML = lcalc
+	hccalc.innerHTML = ccalc;
+
+	if (hlsprings.value == "") {
+		hlsprings.value = 0;
+		lsprings = 0;
+	} else {
+		lsprings = parseInt(hlsprings.value);
+		if (isNaN(lsprings)) {
+			alert("Life Springs value error");
+			hlsprings.value = 0;
+			lsprings = 0;
+		}
+		if (lsprings > lcalc) {
+			hlsprings.value = lcalc;
+			lsprings = lcalc;
+		}
+	}
+
+	if (hcsprings.value == "") {
+		hcsprings.value = 0;
+		csprings = 0;
+	} else {
+		csprings = parseInt(hcsprings.value);
+		if (isNaN(csprings)) {
+			alert("Class Springs value error");
+			hcsprings.value = 0;
+			csprings = 0;
+		}
+		if (csprings > ccalc) {
+			hcsprings.value = ccalc;
+			csprings = ccalc;
+		}
+	}
+
+	if (hosprings.value == "") {
+		hosprings.value = 0;
+		osprings = 0;
+	} else {
+		osprings = parseInt(hosprings.value);
+		if (isNaN(osprings)) {
+			alert("Occupational Springs value error");
+			hosprings.value = 0;
+			osprings = 0;
+		}
+	}
+
+	points += lsprings * 5 + csprings + osprings;
+
+	for (var i = 0; i < 10; i++) {
+		verifySkillLevels("i", i);
+		verifySkillLevels("ii", i);
+		verifySkillLevels("iii", i);
+	}
+
+	for (var i = 0; i < 10; i++) {
+		calcMaxLevelSkills("i", i);
+		calcMaxLevelSkills("ii", i);
+		calcMaxLevelSkills("iii", i);
+	}
+
+	for (var i = 0; i < 10; i++) {
+		recalcSkillLevels("i", i);
+		recalcSkillLevels("ii", i);
+		recalcSkillLevels("iii", i);
+	}
+
+	for (var i = 0; i < 10; i++) {
+		recalcMaxSkillLevels("i", i);
+		recalcMaxSkillLevels("ii", i);
+		recalcMaxSkillLevels("iii", i);
+	}
+  if (points < 0)
+  {
+    hpoints.style="color:red";
+    lhpoints.style="color:red";
+    lhpoints.innerHTML="Waters Needed: ";
+  }
+  else
+  {
+    hpoints.style="";
+    lhpoints.style="";
+    lhpoints.innerHTML="Points Available: ";
+  }
+	hpoints.innerHTML = Math.abs(points);
+}
+
+function recalcMaxSkillLevels(stn, i) {
+	var maxlvl;
+	var slvl;
+	var tpoints = points;
+	var namebank = skillsdict[document.getElementById("hskills" + stn + "name").innerHTML];
+  var name;
+  if (namebank != undefined && namebank[i] != undefined) {
+    if (points < 0)
+    {
+      document.getElementById("hsmaxl" + stn + i).style = "color:red";
+      document.getElementById("hsmax" + stn + i).style = "color:red";
+		} else {
+      document.getElementById("hsmaxl" + stn + i).style = "";
+		  document.getElementById("hsmax" + stn + i).style = "";
+      name = namebank[i];    
+		  slvl = parseInt(document.getElementById("hslv" + stn + i).value);
+		  maxlvl = parseInt(document.getElementById("hsmax" + stn + i).innerHTML);    
+		  if (points >= 0) {
+        costs = skillsdictpoints[name];      
+        while (slvl < maxlvl && tpoints >= 0) {
+          tpoints -= parseInt(costs[slvl++]);
+        }      
+        if (tpoints < 0) {
+          document.getElementById("hsmax" + stn + i).innerHTML = slvl - 1;
+        } else {
+          document.getElementById("hsmax" + stn + i).innerHTML = slvl;
+        }
+      } else {
+        document.getElementById("hsmax" + stn + i).innerHTML = slvl;
+      }
+    }
+	}
+}
+
+function recalcSkillLevels(stn, i) {
+  var sclasschosen = hclasschosen.value;
+	var maxlvl;
+	var slvl;
+	var namebank = skillsdict[document.getElementById("hskills" + stn + "name").innerHTML];
+  var name;
+  if (namebank != undefined && namebank[i] != undefined) {
+    name = namebank[i];    
+		slvl = parseInt(document.getElementById("hslv" + stn + i).value);    
+		maxlvl = parseInt(document.getElementById("hsmax" + stn + i).innerHTML);        		
+		if (slvl > maxlvl) {
+			document.getElementById("hslv" + stn + i).value = maxlvl;
+			slvl = maxlvl;     
+		}
+		costs = skillsdictpoints[name];		    
+    if (slvl == 0 && costs[slvl] == 0 && document.getElementById("hsmax" + stn + i).innerHTML > 0)
+    {
+      document.getElementById("hslv" + stn + i).value = 1
+      slvl = 1;
+    }    
+    if (slvl > 0)
+    {
+      document.getElementById("hskillimg" + stn + i).innerHTML = "<img src=\"./" + sclasschosen + "/" + stn + i + ".png\">";
+    }
+    else
+    {
+      document.getElementById("hskillimg" + stn + i).innerHTML = "<img src=\"./" + sclasschosen + "/u" + stn + i + ".png\">";
+    }
+    while (slvl-- > 0) {
+			points -= parseInt(costs[slvl]);
+		}
+    
+	}
+}
+
+function verifySkillLevels(stn, i) {
+  var sclasschosen = hclasschosen.value;
+	var namebank = skillsdict[document.getElementById("hskills" + stn + "name").innerHTML];
+  var name;
+  if (namebank != undefined && namebank[i] != undefined) {
+    name = namebank[i];    
+		var slvl = parseInt(document.getElementById("hslv" + stn + i).value);
+		if (isNaN(slvl)) {
+			alert(name + " Skill Level Error");
+			document.getElementById("hslv" + stn + i).value = 0;
+		}
+    if (slvl > 0)
+    {
+      document.getElementById("hskillimg" + stn + i).innerHTML = "<img src=\"./" + sclasschosen + "/" + stn + i + ".png\">";
+    }
+    else
+    {
+      document.getElementById("hskillimg" + stn + i).innerHTML = "<img src=\"./" + sclasschosen + "/u" + stn + i + ".png\">";
+    }
+	}
+}
+
+function calcMaxLevelSkills(stn, i) {
+  var levels;
+	var costs;
+	var prereqs;
+	var slvl;
+	var prereqindex;
+	var prereqname;
+	var prereqlevel;
+	var matched = true;
+	var prereqkeys;
+	var namebank = skillsdict[document.getElementById("hskills" + stn + "name").innerHTML];
+  var name;   
+	if (namebank != undefined && namebank[i] != undefined)
+  {
+  	name = skillsdict[document.getElementById("hskills" + stn + "name").innerHTML][i];
+		levels = skillsdictlevel[name];
+		prereqs = skillsdictprereq[name];
+		if (levels != undefined) {
+			if (prereqs == undefined) {
+				slvl = 0;
+				while (levels[slvl] != undefined && levels[slvl] <= lvl) {
+					slvl++;
+				}        
+			} else {
+				slvl = 0;
+				while (levels[slvl] != undefined && levels[slvl] <= lvl && matched == true) {
+					matched = false;
+					prereqkeys = Object.keys(prereqs);
+					for (var poi = 0; poi < prereqkeys.length; poi++) {
+						prereqname = prereqkeys[poi];
+						prereqlevels = prereqs[prereqname];
+						for (var j = 0; j < 10; j++) {
+							matched |= matchPrereq("i", j, prereqname, prereqlevels[slvl]);
+							matched |= matchPrereq("ii", j, prereqname, prereqlevels[slvl]);
+							matched |= matchPrereq("iii", j, prereqname, prereqlevels[slvl]);
+						}
+					}
+					if (true == matched)
+						slvl++;
+				}
+
+			}
+			document.getElementById("hsmax" + stn + i).innerHTML = slvl;
+		}
+
+	}
+}
+
+function matchPrereq(stn, i, prereqname, prereqlevel) {
+
+	var plvl;
+	if (document.getElementById("hskillname" + stn + i).innerHTML != prereqname)
+		return false;
+	plvl = parseInt(document.getElementById("hslv" + stn + i).value);
+	return (plvl >= prereqlevel);
+}
+
+function setUpIndSkillHTML(stn, i) {
+  var sclasschosen = hclasschosen.value;  
+	var namebank = skillsdict[document.getElementById("hskills" + stn + "name").innerHTML];
+  var name;
+	if (namebank == undefined || namebank[i] == undefined) {
+		document.getElementById("hskillname" + stn + i).style = "visibility:hidden";
+		document.getElementById("hinc" + stn + i).style = "visibility:hidden";
+		document.getElementById("hslv" + stn + i).style = "width:0px;outline:none;border-style:none";
+		document.getElementById("hslv" + stn + i).disabled = true;
+		document.getElementById("hsmaxl" + stn + i).style = "visibility:hidden";
+		document.getElementById("hsmax" + stn + i).style = "visibility:hidden";
+		document.getElementById("hdec" + stn + i).style = "visibility:hidden";
+	} else {
+    name = namebank[i];
+    document.getElementById("hskillimg" + stn + i).innerHTML = "<img src=\"./" + sclasschosen + "/u" + stn + i + ".png\">";    
+		document.getElementById("hskillname" + stn + i).innerHTML = name;
+		document.getElementById("hslv" + stn + i).disabled = false;
+		document.getElementById("hslv" + stn + i).value = 0;
+		document.getElementById("hinc" + stn + i).onclick = function() {
+			changelvl(stn, i, document.getElementById("hinc" + stn + i).innerHTML)
+		};
+		document.getElementById("hdec" + stn + i).onclick = function() {
+			changelvl(stn, i, document.getElementById("hdec" + stn + i).innerHTML)
+		};
+	}
+}
+
+function changelvl(stn, i, op) {
+	var n = document.getElementById("hslv" + stn + i).value;
+	var a;
+	var b;
+	if (n == "")
+		n = "0";
+	a = parseInt(n);
+	if (isNaN(a))
+		return;
+	b = parseInt(document.getElementById("hsmax" + stn + i).innerHTML);
+	if (isNaN(b))
+		return;
+	if (op == "+") {
+		a++;
+	} else if (op == "-") {
+		if (a > 0) {
+			a--;
+		}
+	}	
+	document.getElementById("hslv" + stn + i).value = a;
+	recalculate();
+}
+
+function setUpSkillHTML(stn, ord) {
+	var htmlcode = "<td id=\"hskillimg" + stn + ord + "\"></td>"
+  htmlcode += "<td><span id=\"hskillname" + stn + ord + "\"></span></td>"
+	htmlcode += "<td><button id=\"hdec" + stn + ord + "\" type=\"button\">-</button></td>"
+	htmlcode += "<td style=\"width:25px\"><input id=\"hslv" + stn + ord + "\" style=\"width:25px\"></td>"
+	htmlcode += "<td><button id=\"hinc" + stn + ord + "\" type=\"button\">+</button></td>"
+	htmlcode += "<td><span id=\"hsmaxl" + stn + ord + "\">Max: </span><span id=\"hsmax" + stn + ord + "\">0</span></td>"
+  htmlcode += "<td style=\"width:100px\"></td>"
+	return htmlcode;
+}
+
+function updateData() {
+	eval(rawcode.value);
+	hclasschosen.innerHTML = "";
+	classes.forEach(listClasses);
+	hclasschosen.value = classes[0];
+	hclasschosen.onchange = setUpSkills;
+	setUpSkills();
+}
+
+function listClasses(item, index) {
+	hclasschosen.innerHTML += "<option value=\"" + item + "\">" + item + "</option>";
+}
+
+updateData();        
+</script>
+</body>
+</html>
